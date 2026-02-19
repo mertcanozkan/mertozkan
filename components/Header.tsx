@@ -28,10 +28,11 @@ export function Header() {
         <div className="panel flex items-center justify-between px-5 py-3">
           <Link
             href="#home"
-            className="font-[var(--font-heading)] text-sm font-semibold tracking-[0.3em]"
+            className="inline-flex items-center font-[var(--font-heading)] text-sm tracking-[0.3em]"
             aria-label="MERTCAN Home"
           >
-            MERTCAN
+            <span className="font-extrabold text-ink dark:text-white">MERT</span>
+            <span className="font-semibold text-accent">CAN</span>
           </Link>
           <button
             type="button"

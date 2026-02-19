@@ -1,3 +1,4 @@
+import { BackToTopButton } from '@/components/BackToTopButton';
 import { ContactSection } from '@/components/ContactSection';
 import { CustomWebPlatformsSection } from '@/components/CustomWebPlatformsSection';
 import { Footer } from '@/components/Footer';
@@ -8,6 +9,7 @@ import { PerformanceSEOSection } from '@/components/PerformanceSEOSection';
 import { ProcessSection } from '@/components/ProcessSection';
 import { ProjectsSection } from '@/components/ProjectsSection';
 import { ServicesSection } from '@/components/ServicesSection';
+import { ThemeToggleButton } from '@/components/ThemeToggleButton';
 import { UIEngineeringSection } from '@/components/UIEngineeringSection';
 
 export default function HomePage() {
@@ -59,6 +61,8 @@ export default function HomePage() {
       <ProjectsSection />
       <ProcessSection />
       <ContactSection />
+      <ThemeToggleButton />
+      <BackToTopButton />
       <Footer />
     </main>
   );

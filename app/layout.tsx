@@ -70,12 +70,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en-GB">
+    <html lang="en-GB" suppressHydrationWarning>
       <body className={`${manrope.variable} ${spaceGrotesk.variable} font-[var(--font-body)] text-ink antialiased`}>
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "(()=>{try{if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('motion-safe')}}catch(_){}})();"
+              "(()=>{try{const r=document.documentElement;const t=localStorage.getItem('theme-preference');const d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;r.classList.toggle('dark',d);if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){r.classList.add('motion-safe')}}catch(_){}})();"
           }}
         />
         <a href="#main-content" className="skip-link">
