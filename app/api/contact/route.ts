@@ -113,12 +113,12 @@ export async function POST(request: Request) {
       typeof error === 'object' && error !== null && 'code' in error ? String((error as { code?: unknown }).code) : '';
     const debugMessage = errorCode ? `${errorCode}: ${errorMessage}` : errorMessage;
 
-    if (!isProduction) {
-      return NextResponse.json({ error: debugMessage }, { status: 502 });
+    if (error instanceof MailConfigError) {
+      return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
 
-    if (error instanceof MailConfigError) {
-      return NextResponse.json({ error: 'Message could not be sent right now. Please try again shortly.' }, { status: 500 });
+    if (!isProduction) {
+      return NextResponse.json({ error: debugMessage }, { status: 502 });
     }
 
     return NextResponse.json(

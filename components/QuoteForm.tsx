@@ -16,7 +16,8 @@ export function QuoteForm() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
 
     setState({ status: 'loading', message: 'Submitting quote request...' });
 
@@ -41,7 +42,7 @@ export function QuoteForm() {
       }
 
       setState({ status: 'success', message: data.message });
-      event.currentTarget.reset();
+      form.reset();
     } catch (error) {
       setState({ status: 'error', message: error instanceof Error ? error.message : 'Unexpected error' });
     }
