@@ -19,7 +19,7 @@ export default function HomePage() {
       {
         '@type': 'WebSite',
         '@id': 'https://www.mertcan.co.uk/#website',
-        name: 'MERTCAN Portfolio',
+        name: 'MERTCAN Web Development',
         url: 'https://www.mertcan.co.uk',
         inLanguage: 'en-GB'
       },
