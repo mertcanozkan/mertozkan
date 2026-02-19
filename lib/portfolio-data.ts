@@ -98,8 +98,8 @@ export const testimonials = [
 ];
 
 export const contactDetails = {
-  email: 'hello@mertcan.dev',
-  whatsappNumber: '905551112233',
-  whatsappLabel: '+90 555 111 22 33',
-  location: 'Istanbul, Turkey'
+  email: 'hello@mertcan.co.uk',
+  whatsappNumber: '447599090900',
+  whatsappLabel: '+447599090900',
+  location: 'London, UK'
 };

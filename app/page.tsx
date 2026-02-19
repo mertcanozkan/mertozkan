@@ -12,8 +12,8 @@ export default function HomePage() {
     '@type': 'Person',
     name: 'MERTCAN',
     jobTitle: 'Web Developer',
-    url: 'https://mertcan.dev',
-    email: 'hello@mertcan.dev',
+    url: 'https://www.mertcan.co.uk',
+    email: 'hello@mertcan.co.uk',
     knowsAbout: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Web Performance']
   };
 

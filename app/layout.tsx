@@ -17,11 +17,11 @@ export const metadata: Metadata = {
   title: 'MERTCAN | Modern Web Developer Portfolio',
   description:
     'Modern Next.js portfolio for MERTCAN featuring premium UI motion, project showcases, and streamlined quote/contact workflows.',
-  metadataBase: new URL('https://mertcan.dev'),
+  metadataBase: new URL('https://www.mertcan.co.uk'),
   openGraph: {
     title: 'MERTCAN | Modern Web Developer Portfolio',
     description: 'Performance-focused web developer portfolio with quote and contact workflows.',
-    url: 'https://mertcan.dev',
+    url: 'https://www.mertcan.co.uk',
     siteName: 'MERTCAN Portfolio',
     type: 'website'
   },
