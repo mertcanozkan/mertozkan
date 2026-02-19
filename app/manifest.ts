@@ -1,0 +1,14 @@
+import type { MetadataRoute } from 'next';
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: 'MERTCAN Portfolio',
+    short_name: 'MERTCAN',
+    description: 'Modern web developer portfolio with quote and contact workflows.',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#f8f8f5',
+    theme_color: '#0f766e',
+    lang: 'en-GB'
+  };
+}

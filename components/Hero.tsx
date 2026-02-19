@@ -8,7 +8,7 @@ const heroImage =
 
 export function Hero() {
   return (
-    <section id="home" className="relative min-h-screen overflow-hidden pb-12 pt-36 md:pt-44">
+    <section id="home" aria-labelledby="hero-title" className="relative min-h-screen overflow-hidden pb-12 pt-36 md:pt-44">
       <Image
         src={heroImage}
         alt="Modern workspace with laptop for web development"
@@ -22,7 +22,7 @@ export function Hero() {
       <div className="section-shell relative z-10 grid-layer">
         <Reveal className="max-w-3xl">
           <p className="font-[var(--font-heading)] text-xs tracking-[0.35em] text-white/80">WEB DEVELOPER PORTFOLIO</p>
-          <h1 className="mt-5 font-[var(--font-heading)] text-5xl font-semibold leading-tight text-white md:text-7xl">
+          <h1 id="hero-title" className="mt-5 font-[var(--font-heading)] text-5xl font-semibold leading-tight text-white md:text-7xl">
             MERTCAN
             <span className="block text-white/70">Building digital products that feel sharp and scale cleanly.</span>
           </h1>
@@ -33,15 +33,16 @@ export function Hero() {
           <div className="mt-9 flex flex-wrap gap-4">
             <Link
               href="#quote"
-              className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition hover:-translate-y-0.5 hover:bg-white/90"
+              className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition hover:-translate-y-0.5 hover:bg-white/90 focus-visible:outline-white"
             >
               Request a Quote
             </Link>
             <Link
               href={`https://wa.me/${contactDetails.whatsappNumber}?text=Hi%20MERTCAN%2C%20I%20want%20to%20discuss%20a%20web%20project.`}
               target="_blank"
-              rel="noreferrer"
-              className="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:border-white"
+              rel="noopener noreferrer"
+              aria-label="Chat on WhatsApp about a project (opens in a new tab)"
+              className="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:border-white focus-visible:outline-white"
             >
               WhatsApp Chat
             </Link>

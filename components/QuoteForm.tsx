@@ -8,6 +8,8 @@ type State = {
 };
 
 const initialState: State = { status: 'idle', message: '' };
+const fieldClass =
+  'mt-1 w-full rounded-xl border border-black/15 bg-white/70 px-4 py-3 text-sm transition focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/20';
 
 export function QuoteForm() {
   const [state, setState] = useState<State>(initialState);
@@ -46,59 +48,91 @@ export function QuoteForm() {
   }
 
   return (
-    <form id="quote" onSubmit={handleSubmit} className="space-y-3">
-      <input
-        name="name"
-        type="text"
-        placeholder="Your Name"
-        required
-        className="w-full rounded-xl border border-black/15 bg-white/70 px-4 py-3 text-sm outline-none transition focus:border-accent"
-      />
-      <input
-        name="email"
-        type="email"
-        placeholder="Email Address"
-        required
-        className="w-full rounded-xl border border-black/15 bg-white/70 px-4 py-3 text-sm outline-none transition focus:border-accent"
-      />
-      <select
-        name="projectType"
-        required
-        className="w-full rounded-xl border border-black/15 bg-white/70 px-4 py-3 text-sm outline-none transition focus:border-accent"
-        defaultValue=""
-      >
-        <option value="" disabled>
-          Project Type
-        </option>
-        <option>Landing Page</option>
-        <option>Corporate Website</option>
-        <option>SaaS Application</option>
-        <option>E-Commerce Store</option>
-        <option>Custom Web App</option>
-      </select>
-      <div className="grid gap-3 md:grid-cols-2">
+    <form id="quote" onSubmit={handleSubmit} className="space-y-3" aria-busy={state.status === 'loading'}>
+      <div>
+        <label htmlFor="quote-name" className="text-xs font-medium text-ink/80">
+          Name
+        </label>
         <input
-          name="budget"
+          id="quote-name"
+          name="name"
           type="text"
-          placeholder="Estimated Budget"
+          placeholder="Your Name"
+          autoComplete="name"
           required
-          className="w-full rounded-xl border border-black/15 bg-white/70 px-4 py-3 text-sm outline-none transition focus:border-accent"
-        />
-        <input
-          name="timeline"
-          type="text"
-          placeholder="Desired Timeline"
-          required
-          className="w-full rounded-xl border border-black/15 bg-white/70 px-4 py-3 text-sm outline-none transition focus:border-accent"
+          className={fieldClass}
         />
       </div>
-      <textarea
-        name="requirements"
-        placeholder="Share the detailed requirements, goals, must-have features, and references"
-        required
-        rows={6}
-        className="w-full rounded-xl border border-black/15 bg-white/70 px-4 py-3 text-sm outline-none transition focus:border-accent"
-      />
+      <div>
+        <label htmlFor="quote-email" className="text-xs font-medium text-ink/80">
+          Email
+        </label>
+        <input
+          id="quote-email"
+          name="email"
+          type="email"
+          placeholder="Email Address"
+          autoComplete="email"
+          required
+          className={fieldClass}
+        />
+      </div>
+      <div>
+        <label htmlFor="quote-project-type" className="text-xs font-medium text-ink/80">
+          Project Type
+        </label>
+        <select id="quote-project-type" name="projectType" required className={fieldClass} defaultValue="">
+          <option value="" disabled>
+            Select project type
+          </option>
+          <option>Landing Page</option>
+          <option>Corporate Website</option>
+          <option>SaaS Application</option>
+          <option>E-Commerce Store</option>
+          <option>Custom Web App</option>
+        </select>
+      </div>
+      <div className="grid gap-3 md:grid-cols-2">
+        <div>
+          <label htmlFor="quote-budget" className="text-xs font-medium text-ink/80">
+            Estimated Budget
+          </label>
+          <input
+            id="quote-budget"
+            name="budget"
+            type="text"
+            placeholder="Estimated Budget"
+            required
+            className={fieldClass}
+          />
+        </div>
+        <div>
+          <label htmlFor="quote-timeline" className="text-xs font-medium text-ink/80">
+            Desired Timeline
+          </label>
+          <input
+            id="quote-timeline"
+            name="timeline"
+            type="text"
+            placeholder="Desired Timeline"
+            required
+            className={fieldClass}
+          />
+        </div>
+      </div>
+      <div>
+        <label htmlFor="quote-requirements" className="text-xs font-medium text-ink/80">
+          Requirements
+        </label>
+        <textarea
+          id="quote-requirements"
+          name="requirements"
+          placeholder="Share the detailed requirements, goals, must-have features, and references"
+          required
+          rows={6}
+          className={fieldClass}
+        />
+      </div>
       <button
         type="submit"
         className="w-full rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-teal-700"
@@ -107,7 +141,13 @@ export function QuoteForm() {
         {state.status === 'loading' ? 'Submitting...' : 'Request Quote'}
       </button>
       {state.message ? (
-        <p className={`text-xs ${state.status === 'error' ? 'text-red-600' : 'text-accent'}`}>{state.message}</p>
+        <p
+          role={state.status === 'error' ? 'alert' : 'status'}
+          aria-live={state.status === 'error' ? 'assertive' : 'polite'}
+          className={`text-xs ${state.status === 'error' ? 'text-red-700' : 'text-accent'}`}
+        >
+          {state.message}
+        </p>
       ) : null}
     </form>
   );

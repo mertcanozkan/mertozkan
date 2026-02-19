@@ -3,10 +3,12 @@ import { processSteps, testimonials } from '@/lib/portfolio-data';
 
 export function ProcessSection() {
   return (
-    <section id="process" className="py-24">
+    <section id="process" aria-labelledby="process-title" className="py-24">
       <div className="section-shell">
         <Reveal>
-          <h2 className="section-heading font-[var(--font-heading)]">Process</h2>
+          <h2 id="process-title" className="section-heading font-[var(--font-heading)]">
+            Process
+          </h2>
           <p className="section-subtitle">A clear, low-friction workflow to keep scope, quality, and momentum aligned.</p>
         </Reveal>
 

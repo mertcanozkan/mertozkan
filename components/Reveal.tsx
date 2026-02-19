@@ -19,12 +19,17 @@ export function Reveal({ children, className = '', delay = 0 }: RevealProps) {
     }
 
     target.style.transitionDelay = `${delay}ms`;
+    if (!('IntersectionObserver' in window)) {
+      target.classList.add('visible');
+      return;
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
           }
         });
       },

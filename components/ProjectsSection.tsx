@@ -3,10 +3,12 @@ import { projects } from '@/lib/portfolio-data';
 
 export function ProjectsSection() {
   return (
-    <section id="projects" className="py-24">
+    <section id="projects" aria-labelledby="projects-title" className="py-24">
       <div className="section-shell">
         <Reveal>
-          <h2 className="section-heading font-[var(--font-heading)]">Featured Work</h2>
+          <h2 id="projects-title" className="section-heading font-[var(--font-heading)]">
+            Featured Work
+          </h2>
           <p className="section-subtitle">Selected projects showing technical depth, business alignment, and design quality.</p>
         </Reveal>
 

@@ -6,10 +6,12 @@ import { contactDetails } from '@/lib/portfolio-data';
 
 export function ContactSection() {
   return (
-    <section id="contact" className="py-24">
+    <section id="contact" aria-labelledby="contact-title" className="py-24">
       <div className="section-shell">
         <Reveal>
-          <h2 className="section-heading font-[var(--font-heading)]">Let&apos;s Build Your Next Project</h2>
+          <h2 id="contact-title" className="section-heading font-[var(--font-heading)]">
+            Let&apos;s Build Your Next Project
+          </h2>
           <p className="section-subtitle">
             Reach out directly, request a detailed quote, or start instantly via WhatsApp.
           </p>
@@ -30,7 +32,8 @@ export function ContactSection() {
                 <Link
                   href={`https://wa.me/${contactDetails.whatsappNumber}?text=Hi%20MERTCAN%2C%20I%20would%20like%20a%20project%20quote.`}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
+                  aria-label="Open WhatsApp chat for project quote (opens in a new tab)"
                   className="font-medium hover:text-accent"
                 >
                   {contactDetails.whatsappLabel}
@@ -44,7 +47,8 @@ export function ContactSection() {
             <Link
               href={`https://wa.me/${contactDetails.whatsappNumber}?text=Hi%20MERTCAN%2C%20I%20want%20to%20chat%20about%20a%20project.`}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
+              aria-label="Open WhatsApp now (opens in a new tab)"
               className="mt-8 inline-flex rounded-full bg-ink px-5 py-3 text-xs font-semibold tracking-[0.15em] text-white transition hover:-translate-y-0.5"
             >
               WHATSAPP NOW
