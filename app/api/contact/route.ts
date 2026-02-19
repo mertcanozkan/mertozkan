@@ -9,6 +9,13 @@ type ContactBody = {
   message?: string;
 };
 
+class MailConfigError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'MailConfigError';
+  }
+}
+
 function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
@@ -26,27 +33,38 @@ function createTransport() {
   const host = process.env.SMTP_HOST;
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASS;
+  const from = process.env.SMTP_FROM;
   const portValue = process.env.SMTP_PORT ?? '587';
   const secureValue = process.env.SMTP_SECURE ?? 'false';
+  const requireTLSValue = process.env.SMTP_REQUIRE_TLS ?? 'false';
+  const tlsRejectUnauthorizedValue = process.env.SMTP_TLS_REJECT_UNAUTHORIZED ?? 'true';
 
-  if (!host || !user || !pass) {
-    throw new Error('SMTP host, user, or password is missing.');
+  if (!host || !user || !pass || !from) {
+    throw new MailConfigError(
+      'SMTP is not fully configured. Ensure SMTP_HOST, SMTP_USER, SMTP_PASS, and SMTP_FROM are set in .env.'
+    );
   }
 
   const port = Number.parseInt(portValue, 10);
   const secure = secureValue.toLowerCase() === 'true';
+  const requireTLS = requireTLSValue.toLowerCase() === 'true';
+  const tlsRejectUnauthorized = tlsRejectUnauthorizedValue.toLowerCase() === 'true';
 
   if (Number.isNaN(port)) {
-    throw new Error('SMTP port is invalid.');
+    throw new MailConfigError('SMTP_PORT must be a valid number.');
   }
 
   return nodemailer.createTransport({
     host,
     port,
     secure,
+    requireTLS,
     auth: {
       user,
       pass
+    },
+    tls: {
+      rejectUnauthorized: tlsRejectUnauthorized
     }
   });
 }
@@ -63,17 +81,18 @@ export async function POST(request: Request) {
   }
 
   const recipient = process.env.CONTACT_RECEIVER_EMAIL ?? 'hello@mertcan.co.uk';
-  const from = process.env.SMTP_FROM ?? `MERTCAN Portfolio <${recipient}>`;
+  const from = process.env.SMTP_FROM;
   const safeName = escapeHtml(body.name);
   const safeEmail = escapeHtml(body.email);
   const safeMessage = escapeHtml(body.message).replace(/\n/g, '<br/>');
 
   try {
     const transporter = createTransport();
+    await transporter.verify();
 
     await transporter.sendMail({
       to: recipient,
-      from,
+      from: from!,
       replyTo: body.email,
       subject: `New Contact Form Submission from ${body.name}`,
       text: `Name: ${body.name}\nEmail: ${body.email}\n\nMessage:\n${body.message}`,
@@ -88,9 +107,23 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Contact form email failed:', error);
 
+    const isProduction = process.env.NODE_ENV === 'production';
+    const errorMessage = error instanceof Error ? error.message : 'Unknown mail error.';
+    const errorCode =
+      typeof error === 'object' && error !== null && 'code' in error ? String((error as { code?: unknown }).code) : '';
+    const debugMessage = errorCode ? `${errorCode}: ${errorMessage}` : errorMessage;
+
+    if (!isProduction) {
+      return NextResponse.json({ error: debugMessage }, { status: 502 });
+    }
+
+    if (error instanceof MailConfigError) {
+      return NextResponse.json({ error: 'Message could not be sent right now. Please try again shortly.' }, { status: 500 });
+    }
+
     return NextResponse.json(
-      { error: 'Message could not be sent right now. Please try again shortly.' },
-      { status: 500 }
+      { error: 'Message could not be sent right now. Please check SMTP settings and try again.' },
+      { status: 502 }
     );
   }
 

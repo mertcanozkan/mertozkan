@@ -35,8 +35,16 @@ Required env keys:
 - `SMTP_SECURE`
 - `SMTP_USER`
 - `SMTP_PASS`
+- `SMTP_FROM`
 - `CONTACT_RECEIVER_EMAIL`
 
 Optional:
 
-- `SMTP_FROM`
+- `SMTP_REQUIRE_TLS`
+- `SMTP_TLS_REJECT_UNAUTHORIZED`
+
+Troubleshooting:
+
+- If your provider uses SSL on port `465`, use `SMTP_PORT=465` and `SMTP_SECURE=true`.
+- If your provider uses STARTTLS on `587`, use `SMTP_PORT=587` and `SMTP_SECURE=false`.
+- In development, the API now returns a clearer SMTP configuration error when vars are missing.
