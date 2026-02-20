@@ -62,8 +62,10 @@ npm run build:hostinger
 
 Upload the full contents of `deploy/hostinger/` to your Hostinger Node app directory.
 
-Important: do not upload only `.next/standalone` by itself.  
-If `.next/static` is missing, the site renders as unstyled HTML (no Tailwind/CSS).
+Important: do not upload only `next/standalone` by itself.  
+If `next/static` is missing, the site renders as unstyled HTML (no Tailwind/CSS).
+
+This project intentionally uses `distDir: "next"` (non-hidden directory) to avoid hosts/tools that skip hidden folders like `.next`.
 
 ### 2. Start command on Hostinger
 

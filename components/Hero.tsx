@@ -13,7 +13,7 @@ export function Hero() {
         src={heroImage}
         alt="Modern workspace with laptop for web development"
         fill
-        priority
+        loading="eager"
         className="object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-[#0b1110]/90" />
