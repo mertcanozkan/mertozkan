@@ -65,7 +65,16 @@ Upload the full contents of `deploy/hostinger/` to your Hostinger Node app direc
 Important: do not upload only `next/standalone` by itself.  
 If `next/static` is missing, the site renders as unstyled HTML (no Tailwind/CSS).
 
-This project intentionally uses `distDir: "next"` (non-hidden directory) to avoid hosts/tools that skip hidden folders like `.next`.
+This project uses conditional build output:
+
+- CI/server builds: `.next` (default Next.js output)
+- Manual Hostinger bundle (`npm run build:hostinger`): `next` (non-hidden directory)
+
+If you use Hostinger CI/CD instead of manual upload:
+
+- Build command: `npm run build`
+- Output directory: `.next`
+- Start command: `npm run start:standalone` (for Node app hosting)
 
 ### 2. Start command on Hostinger
 

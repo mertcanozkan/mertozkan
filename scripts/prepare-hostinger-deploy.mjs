@@ -2,19 +2,24 @@ import { cpSync, existsSync, mkdirSync, rmSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const root = process.cwd();
-const distDirName = 'next';
+const preferredDistDir = process.env.HOSTINGER_BUNDLE === '1' ? 'next' : '.next';
+const distDirCandidates = [preferredDistDir, '.next', 'next'].filter((value, index, list) => list.indexOf(value) === index);
+
+const distDirName = distDirCandidates.find((dirName) => {
+  const standalonePath = resolve(root, `${dirName}/standalone`);
+  const staticPath = resolve(root, `${dirName}/static`);
+
+  return existsSync(standalonePath) && existsSync(staticPath);
+});
+
+if (!distDirName) {
+  throw new Error('Missing Next.js build output. Run "next build" before preparing deployment.');
+}
+
 const standaloneDir = resolve(root, `${distDirName}/standalone`);
 const staticDir = resolve(root, `${distDirName}/static`);
 const publicDir = resolve(root, 'public');
 const outputDir = resolve(root, 'deploy/hostinger');
-
-if (!existsSync(standaloneDir)) {
-  throw new Error(`Missing ${distDirName}/standalone. Run "next build" before preparing deployment.`);
-}
-
-if (!existsSync(staticDir)) {
-  throw new Error(`Missing ${distDirName}/static. Build output is incomplete.`);
-}
 
 rmSync(outputDir, { force: true, recursive: true });
 mkdirSync(outputDir, { recursive: true });

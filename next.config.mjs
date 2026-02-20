@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
+const isManualHostingerBundle = process.env.HOSTINGER_BUNDLE === '1';
+
 const nextConfig = {
   output: 'standalone',
-  distDir: 'next',
+  distDir: isManualHostingerBundle ? 'next' : '.next',
   images: {
     remotePatterns: [
       {
