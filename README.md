@@ -48,6 +48,8 @@ Troubleshooting:
 - If your provider uses SSL on port `465`, use `SMTP_PORT=465` and `SMTP_SECURE=true`.
 - If your provider uses STARTTLS on `587`, use `SMTP_PORT=587` and `SMTP_SECURE=false`.
 - In development, the API now returns a clearer SMTP configuration error when vars are missing.
+- If local dev shows `Cannot find module './948.js'` (or similar chunk file), clear Next cache and restart:
+  - `npm run dev:fresh`
 
 ## Hostinger deployment notes
 
@@ -75,6 +77,7 @@ If you use Hostinger CI/CD instead of manual upload:
 - Build command: `npm run build`
 - Output directory: `.next`
 - Start command: `npm run start:standalone` (for Node app hosting)
+- If Hostinger checks for build output, ensure it is set to `.next` for CI builds.
 
 ### 2. Start command on Hostinger
 

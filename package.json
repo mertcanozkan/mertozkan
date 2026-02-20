@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:fresh": "rm -rf .next && next dev",
     "build": "next build",
+    "build:fresh": "rm -rf .next && next build",
     "build:hostinger": "HOSTINGER_BUNDLE=1 next build && HOSTINGER_BUNDLE=1 node scripts/prepare-hostinger-deploy.mjs",
     "start": "next start",
     "start:standalone": "node .next/standalone/server.js || node next/standalone/server.js",
