@@ -7,9 +7,31 @@ type State = {
   message: string;
 };
 
+type ApiPayload = {
+  error?: string;
+  message?: string;
+};
+
 const initialState: State = { status: 'idle', message: '' };
 const fieldClass =
   'mt-1 w-full rounded-xl border border-black/15 bg-white/70 px-4 py-3 text-sm transition focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/20';
+
+async function parseApiPayload(response: Response): Promise<ApiPayload> {
+  const contentType = response.headers.get('content-type') ?? '';
+
+  if (contentType.includes('application/json')) {
+    return (await response.json()) as ApiPayload;
+  }
+
+  const raw = await response.text();
+  const looksLikeHtml = raw.trimStart().startsWith('<');
+
+  if (looksLikeHtml) {
+    return { error: 'Server returned an unexpected response. Please try again.' };
+  }
+
+  return { error: raw || 'Unexpected server response.' };
+}
 
 export function QuoteForm() {
   const [state, setState] = useState<State>(initialState);
@@ -35,13 +57,13 @@ export function QuoteForm() {
         })
       });
 
-      const data = await response.json();
+      const data = await parseApiPayload(response);
 
       if (!response.ok) {
-        throw new Error(data.error ?? 'Quote request failed');
+        throw new Error(data.error ?? data.message ?? `Quote request failed (${response.status})`);
       }
 
-      setState({ status: 'success', message: data.message });
+      setState({ status: 'success', message: data.message ?? 'Quote request submitted successfully.' });
       form.reset();
     } catch (error) {
       setState({ status: 'error', message: error instanceof Error ? error.message : 'Unexpected error' });
