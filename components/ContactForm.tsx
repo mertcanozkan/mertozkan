@@ -18,9 +18,21 @@ const fieldClass =
 
 async function parseApiPayload(response: Response): Promise<ApiPayload> {
   const contentType = response.headers.get('content-type') ?? '';
+  const responseClone = response.clone();
 
   if (contentType.includes('application/json')) {
-    return (await response.json()) as ApiPayload;
+    try {
+      return (await response.json()) as ApiPayload;
+    } catch {
+      const rawFallback = await responseClone.text();
+      const looksLikeHtmlFallback = rawFallback.trimStart().startsWith('<');
+
+      if (looksLikeHtmlFallback) {
+        return { error: 'Server returned an unexpected response. Please try again.' };
+      }
+
+      return { error: rawFallback || 'Unexpected server response.' };
+    }
   }
 
   const raw = await response.text();

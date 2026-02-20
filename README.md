@@ -51,7 +51,31 @@ Troubleshooting:
 
 ## Hostinger deployment notes
 
-For Hostinger mail (`smtp.hostinger.com`), the API now defaults to:
+Use a Node.js app deployment (not static-only hosting), because this project uses Next.js API routes for form submission.
+
+### 1. Build a Hostinger-ready bundle
+
+```bash
+npm install
+npm run build:hostinger
+```
+
+Upload the full contents of `deploy/hostinger/` to your Hostinger Node app directory.
+
+Important: do not upload only `.next/standalone` by itself.  
+If `.next/static` is missing, the site renders as unstyled HTML (no Tailwind/CSS).
+
+### 2. Start command on Hostinger
+
+Set startup command to:
+
+```bash
+node server.js
+```
+
+### 3. Environment variables
+
+For Hostinger mail (`smtp.hostinger.com`), the API defaults to:
 
 - `SMTP_PORT=465`
 - `SMTP_SECURE=true`
@@ -72,3 +96,12 @@ Recommended values for Hostinger:
 Optional:
 
 - `SMTP_CLIENT_NAME=mertcan.co.uk`
+
+### 4. Quick production checks
+
+After deploy, verify:
+
+- `https://www.mertcan.co.uk/_next/static/` does not redirect to your HTML page.
+- `https://www.mertcan.co.uk/api/contact` returns JSON for POST requests (not HTML).
+
+If you see `Unexpected token '<'` in the form, the server is returning an HTML error page instead of JSON, usually due to incorrect routing or missing Node app runtime.
