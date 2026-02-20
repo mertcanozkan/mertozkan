@@ -48,3 +48,27 @@ Troubleshooting:
 - If your provider uses SSL on port `465`, use `SMTP_PORT=465` and `SMTP_SECURE=true`.
 - If your provider uses STARTTLS on `587`, use `SMTP_PORT=587` and `SMTP_SECURE=false`.
 - In development, the API now returns a clearer SMTP configuration error when vars are missing.
+
+## Hostinger deployment notes
+
+For Hostinger mail (`smtp.hostinger.com`), the API now defaults to:
+
+- `SMTP_PORT=465`
+- `SMTP_SECURE=true`
+
+If you prefer STARTTLS, explicitly set:
+
+- `SMTP_PORT=587`
+- `SMTP_SECURE=false`
+
+Recommended values for Hostinger:
+
+- `SMTP_HOST=smtp.hostinger.com`
+- `SMTP_USER=hello@mertcan.co.uk`
+- `SMTP_PASS=<your mailbox password>`
+- `SMTP_FROM="MERTCAN Web Development Services <hello@mertcan.co.uk>"`
+- `CONTACT_RECEIVER_EMAIL=hello@mertcan.co.uk`
+
+Optional:
+
+- `SMTP_CLIENT_NAME=mertcan.co.uk`

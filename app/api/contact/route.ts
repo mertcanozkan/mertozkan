@@ -29,26 +29,36 @@ function escapeHtml(value: string) {
     .replaceAll("'", '&#039;');
 }
 
-function createTransport() {
-  const host = process.env.SMTP_HOST;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
-  const from = process.env.SMTP_FROM;
-  const portValue = process.env.SMTP_PORT ?? '587';
-  const secureValue = process.env.SMTP_SECURE ?? 'false';
-  const requireTLSValue = process.env.SMTP_REQUIRE_TLS ?? 'false';
-  const tlsRejectUnauthorizedValue = process.env.SMTP_TLS_REJECT_UNAUTHORIZED ?? 'true';
+function env(name: string) {
+  const value = process.env[name];
+  return typeof value === 'string' ? value.trim() : '';
+}
 
-  if (!host || !user || !pass || !from) {
-    throw new MailConfigError(
-      'SMTP is not fully configured. Ensure SMTP_HOST, SMTP_USER, SMTP_PASS, and SMTP_FROM are set in .env.'
-    );
+function parseBoolean(value: string, fallback: boolean) {
+  if (!value) return fallback;
+  return value.toLowerCase() === 'true';
+}
+
+function createTransport() {
+  const host = env('SMTP_HOST');
+  const user = env('SMTP_USER');
+  const pass = env('SMTP_PASS');
+  const explicitPort = env('SMTP_PORT');
+  const explicitSecure = env('SMTP_SECURE');
+  const portValue = explicitPort || (host === 'smtp.hostinger.com' ? '465' : '587');
+  const secureValue = explicitSecure || (host === 'smtp.hostinger.com' ? 'true' : 'false');
+  const requireTLSValue = env('SMTP_REQUIRE_TLS') || 'false';
+  const tlsRejectUnauthorizedValue = env('SMTP_TLS_REJECT_UNAUTHORIZED') || 'true';
+  const smtpClientName = env('SMTP_CLIENT_NAME') || 'mertcan.co.uk';
+
+  if (!host || !user || !pass) {
+    throw new MailConfigError('SMTP is not fully configured. Ensure SMTP_HOST, SMTP_USER, and SMTP_PASS are set.');
   }
 
   const port = Number.parseInt(portValue, 10);
-  const secure = secureValue.toLowerCase() === 'true';
-  const requireTLS = requireTLSValue.toLowerCase() === 'true';
-  const tlsRejectUnauthorized = tlsRejectUnauthorizedValue.toLowerCase() === 'true';
+  const secure = parseBoolean(secureValue, false);
+  const requireTLS = parseBoolean(requireTLSValue, false);
+  const tlsRejectUnauthorized = parseBoolean(tlsRejectUnauthorizedValue, true);
 
   if (Number.isNaN(port)) {
     throw new MailConfigError('SMTP_PORT must be a valid number.');
@@ -58,7 +68,11 @@ function createTransport() {
     host,
     port,
     secure,
+    name: smtpClientName,
     requireTLS,
+    connectionTimeout: 20_000,
+    greetingTimeout: 20_000,
+    socketTimeout: 30_000,
     auth: {
       user,
       pass
@@ -80,13 +94,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Please enter a valid email address.' }, { status: 400 });
   }
 
-  const recipient = process.env.CONTACT_RECEIVER_EMAIL ?? 'hello@mertcan.co.uk';
-  const from = process.env.SMTP_FROM;
+  const recipient = env('CONTACT_RECEIVER_EMAIL') || 'hello@mertcan.co.uk';
+  const smtpUser = env('SMTP_USER');
+  const from = env('SMTP_FROM') || (smtpUser ? `MERTCAN Web Development Services <${smtpUser}>` : '');
   const safeName = escapeHtml(body.name);
   const safeEmail = escapeHtml(body.email);
   const safeMessage = escapeHtml(body.message).replace(/\n/g, '<br/>');
 
   try {
+    if (!from) {
+      throw new MailConfigError('SMTP_FROM is missing and no SMTP_USER is available for fallback sender address.');
+    }
+
     const transporter = createTransport();
     await transporter.verify();
 
