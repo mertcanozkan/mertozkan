@@ -21,26 +21,28 @@ html {
 body {
   margin: 0;
   background:
-    radial-gradient(circle at 18% 12%, rgba(15, 118, 110, 0.11), transparent 34%),
-    radial-gradient(circle at 90% 10%, rgba(10, 10, 10, 0.08), transparent 24%),
+    radial-gradient(circle at 18% 12%, rgba(79, 70, 229, 0.14), transparent 34%),
+    radial-gradient(circle at 90% 10%, rgba(236, 72, 153, 0.12), transparent 28%),
+    radial-gradient(circle at 50% 80%, rgba(14, 165, 233, 0.1), transparent 35%),
     #f8f8f5;
   color: #121212;
 }
 
 html.dark body {
   background:
-    radial-gradient(circle at 16% 12%, rgba(20, 184, 166, 0.16), transparent 34%),
-    radial-gradient(circle at 88% 8%, rgba(148, 163, 184, 0.1), transparent 22%),
+    radial-gradient(circle at 16% 12%, rgba(99, 102, 241, 0.2), transparent 34%),
+    radial-gradient(circle at 88% 8%, rgba(236, 72, 153, 0.18), transparent 28%),
+    radial-gradient(circle at 50% 80%, rgba(14, 165, 233, 0.15), transparent 35%),
     #0d1114;
   color: #edf2f1;
 }
 
 ::selection {
-  background: rgba(15, 118, 110, 0.2);
+  background: rgba(79, 70, 229, 0.2);
 }
 
 html.dark ::selection {
-  background: rgba(45, 212, 191, 0.28);
+  background: rgba(99, 102, 241, 0.3);
 }
 
 .skip-link {
@@ -67,7 +69,7 @@ html.dark .skip-link {
 }
 
 :focus-visible {
-  outline: 3px solid #0f766e;
+  outline: 3px solid #4F46E5;
   outline-offset: 3px;
 }
 

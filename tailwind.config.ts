@@ -12,7 +12,7 @@ const config: Config = {
       colors: {
         canvas: '#f8f8f5',
         ink: '#121212',
-        accent: '#0f766e',
+        accent: '#4f46e5',
         mist: '#d2d8d6'
       },
       animation: {

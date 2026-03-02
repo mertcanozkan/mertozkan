@@ -52,6 +52,7 @@ export const navItems = [
   { label: 'Services', href: '#services' },
   { label: 'Projects', href: '#projects' },
   { label: 'Process', href: '#process' },
+  { label: 'Client Feedback', href: '#testimonials' },
   { label: 'Contact', href: '#contact' }
 ];
 

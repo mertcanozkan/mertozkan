@@ -9,6 +9,7 @@ import { PerformanceSEOSection } from '@/components/PerformanceSEOSection';
 import { ProcessSection } from '@/components/ProcessSection';
 import { ProjectsSection } from '@/components/ProjectsSection';
 import { ServicesSection } from '@/components/ServicesSection';
+import { TestimonialsSection } from '@/components/TestimonialsSection';
 import { ThemeToggleButton } from '@/components/ThemeToggleButton';
 import { UIEngineeringSection } from '@/components/UIEngineeringSection';
 
@@ -60,6 +61,7 @@ export default function HomePage() {
       <LongTermProductSupportSection />
       <ProjectsSection />
       <ProcessSection />
+      <TestimonialsSection />
       <ContactSection />
       <ThemeToggleButton />
       <BackToTopButton />

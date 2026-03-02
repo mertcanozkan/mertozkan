@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Reveal } from '@/components/Reveal';
-import { processSteps, testimonials } from '@/lib/portfolio-data';
+import { processSteps } from '@/lib/portfolio-data';
 
 export function ProcessSection() {
   return (
@@ -19,8 +19,8 @@ export function ProcessSection() {
           </Link>
         </Reveal>
 
-        <div className="mt-10 grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="grid gap-4">
+        <div className="mt-12 mx-auto max-w-3xl">
+          <div className="grid gap-6">
             {processSteps.map((step, index) => (
               <Reveal key={step.title} delay={90 * index}>
                 <article className="panel flex gap-4 p-5">
@@ -35,20 +35,6 @@ export function ProcessSection() {
               </Reveal>
             ))}
           </div>
-
-          <Reveal delay={220}>
-            <div className="panel h-full p-6">
-              <h3 className="font-[var(--font-heading)] text-xl font-semibold">Client Feedback</h3>
-              <div className="mt-5 space-y-4">
-                {testimonials.map((item) => (
-                  <blockquote key={item.author} className="rounded-2xl border border-black/10 bg-white/70 p-4">
-                    <p className="text-sm text-ink/75">“{item.quote}”</p>
-                    <footer className="mt-3 text-xs font-semibold tracking-[0.15em] text-accent">{item.author}</footer>
-                  </blockquote>
-                ))}
-              </div>
-            </div>
-          </Reveal>
         </div>
       </div>
     </section>
